@@ -176,6 +176,7 @@ int32_t EnvSensors_Read(sensor_t *sensor_data)
 
   //sensor_data->humidity    = HUMIDITY_Value;
   //sensor_data->temperature = TEMPERATURE_Value;
+  //Trying things
 
   //Analog Data:
   sensor_data->terrain_humidity1 = TERRAIN_HUMIDITY_Value1;  //((TERRAIN_HUMIDITY_Value1 - dry_value_first)*100) / (wet_value_first - dry_value_first);
