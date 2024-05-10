@@ -1,0 +1,11 @@
+/*
+ * drv_terrain_umi.c
+ *
+ *  Created on: Jan 23, 2024
+ *      Author: Utente
+ */
+#include "adc.h"
+
+ADC_HandleTypeDef new_hadc;
+
+

@@ -1,0 +1,18 @@
+2024-01-23 10:42:24,492 [INFO] MainUpdater:2868 - connection check result : 10
+2024-01-23 10:42:24,710 [INFO] MainUpdater:2868 - connection check result : 10
+2024-01-23 10:42:25,304 [INFO] I2cTimingTraitement:330 - 0x20303E5D
+2024-01-23 10:42:25,320 [INFO] MicroXplorer:468 - Change Database Path : 
+2024-01-23 10:42:25,320 [INFO] MicroXplorer:498 - Change Database Version : DB.6.0.92
+2024-01-23 10:42:25,414 [WARN] ThirdParty:871 - waiting for thirdparty lock release [close project]
+2024-01-23 10:42:25,414 [INFO] ThirdParty:873 - entering critical section [close project]
+2024-01-23 10:42:25,414 [INFO] ThirdParty:883 - exiting critical section [close project]
+2024-01-23 10:42:25,414 [INFO] PinOutPanel:1499 - setPackage(No Configuration,No Configuration)
+2024-01-23 10:42:25,461 [INFO] UtilMem:75 - Begin LoadConfig() Used Memory: 784618288 Bytes (1073741824)
+2024-01-23 10:42:25,461 [INFO] MicroXplorer:468 - Change Database Path : 
+2024-01-23 10:42:25,461 [INFO] MicroXplorer:498 - Change Database Version : DB.6.0.92
+2024-01-23 10:42:25,461 [INFO] OpenFileManager:308 - Change cursor
+2024-01-23 10:42:25,492 [INFO] Mcu:1946 - Initializing MCU STM32WL55JCIx STM32WL55JCIx STM32WL55JCI6
+2024-01-23 10:42:26,942 [INFO] Context:659 - Trying to add GPIOservice into a context  which must be forbidden
+2024-01-23 10:42:26,942 [INFO] Context:659 - Trying to add GPIOservice into a context  which must be forbidden
+2024-01-23 10:42:26,942 [INFO] Context:659 - Trying to add GPIOservice into a context  which must be forbidden
+2024-01-23 10:42:27,559 [INFO] ApiDbIP:1709 - IP STMicroelectronics.X-CUBE-MEMS1.10.0.0 10.0.0 refparameter STHS34PF80_ADDR is referenced in RefMode but not declared as Refparameter

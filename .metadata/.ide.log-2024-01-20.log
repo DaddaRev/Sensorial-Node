@@ -1,0 +1,20 @@
+2024-01-22 10:40:26,961 [ERROR] ConfigurationRetriever:142 - IOException on connection: Connect timed out
+2024-01-22 10:53:44,013 [ERROR] ConfigurationRetriever:142 - IOException on connection: Connect timed out
+2024-01-22 11:03:59,601 [ERROR] ConfigurationRetriever:142 - IOException on connection: Connect timed out
+2024-01-22 11:11:05,471 [ERROR] AdobePublisher:162 - Exception while opening the connection: java.net.SocketTimeoutException: Connect timed out
+2024-01-22 11:14:20,597 [ERROR] ConfigurationRetriever:142 - IOException on connection: Connect timed out
+2024-01-22 11:20:39,736 [ERROR] AdobePublisher:162 - Exception while opening the connection: java.net.SocketTimeoutException: Connect timed out
+2024-01-22 11:20:41,938 [ERROR] ConfigurationRetriever:142 - IOException on connection: Connect timed out
+2024-01-22 11:43:27,229 [ERROR] AdobePublisher:162 - Exception while opening the connection: java.net.SocketTimeoutException: Connect timed out
+2024-01-22 11:43:29,904 [ERROR] ConfigurationRetriever:142 - IOException on connection: Connect timed out
+2024-01-22 11:49:56,680 [ERROR] ConfigurationRetriever:142 - IOException on connection: Connect timed out
+2024-01-22 11:53:14,683 [ERROR] ConfigurationRetriever:142 - IOException on connection: Connect timed out
+2024-01-22 11:53:16,705 [ERROR] ConfigurationRetriever:142 - IOException on connection: Connect timed out
+2024-01-22 11:57:14,108 [ERROR] ConfigurationRetriever:142 - IOException on connection: Connect timed out
+2024-01-22 12:08:46,617 [ERROR] AdobePublisher:162 - Exception while opening the connection: java.net.SocketTimeoutException: Connect timed out
+2024-01-22 14:44:42,227 [ERROR] ConfigurationRetriever:142 - IOException on connection: Connect timed out
+2024-01-22 14:49:32,391 [ERROR] AdobePublisher:162 - Exception while opening the connection: java.net.SocketTimeoutException: Connect timed out
+2024-01-22 14:50:47,423 [ERROR] ConfigurationRetriever:142 - IOException on connection: Connect timed out
+2024-01-22 15:06:49,282 [ERROR] ConfigurationRetriever:142 - IOException on connection: Connect timed out
+2024-01-22 21:11:36,714 [ERROR] ConfigurationRetriever:142 - IOException on connection: Connect timed out
+2024-01-22 21:32:39,696 [ERROR] ConfigurationRetriever:142 - IOException on connection: Connect timed out
