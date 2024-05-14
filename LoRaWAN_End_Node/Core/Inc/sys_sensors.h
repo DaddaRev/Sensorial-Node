@@ -37,19 +37,17 @@ extern "C" {
   */
 typedef struct
 {
-  //float pressure;         /*!< in mbar */
-  //float temperature;      /*!< in degC */
-  //float humidity;         /*!< in % */
-  //uint32_t light;
-  int terrain_humidity1;   //First analog sensor
-  int terrain_humidity2;   //Second analog sensor
+  float pressure;         /*!< in mbar */
+  float temperature;      /*!< in degC */
+  float humidity;         /*!< in % */
   int32_t latitude;       /*!< latitude converted to binary */
   int32_t longitude;      /*!< longitude converted to binary */
   int16_t altitudeGps;    /*!< in m */
   int16_t altitudeBar;    /*!< in m * 10 */
   /**more may be added*/
   /* USER CODE BEGIN sensor_t */
-
+  int terrain_humidity1;   //First analog sensor
+  int terrain_humidity2;   //Second analog sensor
   /* USER CODE END sensor_t */
 } sensor_t;
 

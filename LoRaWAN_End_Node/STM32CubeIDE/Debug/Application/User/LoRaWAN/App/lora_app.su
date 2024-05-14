@@ -18,7 +18,7 @@ C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_En
 C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/LoRaWAN/App/lora_app.c:1002:13:OnRestoreContextRequest	8	static
 C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/LoRaWAN/App/lora_app.c:894:13:StopJoin	16	static
 C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/LoRaWAN/App/lora_app.c:947:13:StoreContext	8	static
-C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/LoRaWAN/App/lora_app.c:552:13:SendTxData	56	static
+C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/LoRaWAN/App/lora_app.c:552:13:SendTxData	64	static
 C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/LoRaWAN/App/lora_app.c:709:13:OnJoinTimerLedEvent	8	static
 C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/LoRaWAN/App/lora_app.c:348:6:LoRaWAN_Init	48	static
 C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/LoRaWAN/App/lora_app.c:443:6:HAL_GPIO_EXTI_Callback	8	static

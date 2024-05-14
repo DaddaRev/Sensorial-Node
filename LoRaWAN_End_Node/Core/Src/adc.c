@@ -74,6 +74,7 @@ void MX_ADC_Init(int step)
   if (step == 2){
 	  sConfig.Channel = ADC_CHANNEL_4;  //Reading from the A1 pin
   }
+  //sConfig.Channel = ADC_CHANNEL_5;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SamplingTime = ADC_SAMPLINGTIME_COMMON_1;
   if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
@@ -81,7 +82,6 @@ void MX_ADC_Init(int step)
     Error_Handler();
   }
   /* USER CODE BEGIN ADC_Init 2 */
-
   /* USER CODE END ADC_Init 2 */
 
 }

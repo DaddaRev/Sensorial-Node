@@ -135,13 +135,10 @@ int32_t EnvSensors_Read(sensor_t *sensor_data)
   int dry_value_second = 2000;
   int wet_value_second = 200;
 
-  //Reading procedure has 2 step, each one for a single sensor
+  //Reading procedure has a defined number of steps, each one for a single sensor
   int step = 1;
 
-  //float HUMIDITY_Value = HUMIDITY_DEFAULT_VAL;
-  //float TEMPERATURE_Value = TEMPERATURE_DEFAULT_VAL;
   float c = 0;
-  //uint32_t LIGHT_Value = LIGHT_DEFAULT_VAL;
   uint16_t TERRAIN_HUMIDITY_Value1 = TERRAIN_HUMIDITY_DEFAULT_VAL;
   uint16_t TERRAIN_HUMIDITY_Value2 = TERRAIN_HUMIDITY_DEFAULT_VAL;
 
@@ -163,26 +160,30 @@ int32_t EnvSensors_Read(sensor_t *sensor_data)
   IKS01A3_ENV_SENSOR_GetValue(IKS01A3_LPS22HH_0, ENV_TEMPERATURE, &TEMPERATURE_Value);
 #endif /* USE_IKS01A3_ENV_SENSOR_LPS22HH_0 */
 #else
-  //TEMPERATURE_Value = 0;
-  //HUMIDITY_Value = 0;
-  //LIGHT_Value = 0;
 
+  //1
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
+  HAL_Delay(100);
   TERRAIN_HUMIDITY_Value1 = drv_terrain_humi_Read(step);  //Reading the first analog sensor (step=1)
+  HAL_Delay(200);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
   step++;
+
+  //2
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);
+  HAL_Delay(100);
   TERRAIN_HUMIDITY_Value2 = drv_terrain_humi_Read(step);  //Reading the second analog sensor (step=2)
+  HAL_Delay(200);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
   step = 1;
 
-#endif  /* SENSOR_ENABLED */
 
-  //sensor_data->humidity    = HUMIDITY_Value;
-  //sensor_data->temperature = TEMPERATURE_Value;
-  //Trying things
+#endif  /* SENSOR_ENABLED */
 
   //Analog Data:
   sensor_data->terrain_humidity1 = TERRAIN_HUMIDITY_Value1;  //((TERRAIN_HUMIDITY_Value1 - dry_value_first)*100) / (wet_value_first - dry_value_first);
   sensor_data->terrain_humidity2 = TERRAIN_HUMIDITY_Value2;
 
-  //sensor_data->light       = LIGHT_Value;
   sensor_data->latitude  = (int32_t)((STSOP_LATTITUDE  * MAX_GPS_POS) / 90);
   sensor_data->longitude = (int32_t)((STSOP_LONGITUDE  * MAX_GPS_POS) / 180);
 
