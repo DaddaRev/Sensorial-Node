@@ -3,7 +3,7 @@ C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_En
 C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/Core/Src/sys_app.c:90:6:SystemApp_Init	8	static
 C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/Core/Src/sys_app.c:141:6:UTIL_SEQ_Idle	8	static
 C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/Core/Src/sys_app.c:152:9:GetBatteryLevel	8	static
-C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/Core/Src/sys_app.c:184:9:GetTemperatureLevel	40	static
+C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/Core/Src/sys_app.c:184:9:GetTemperatureLevel	104	static
 C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/Core/Src/sys_app.c:198:6:GetUniqueId	16	static
 C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/Core/Src/sys_app.c:238:6:GetDevAddr	16	static
 C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/Core/Src/sys_app.c:275:6:UTIL_ADV_TRACE_PreSendHook	8	static

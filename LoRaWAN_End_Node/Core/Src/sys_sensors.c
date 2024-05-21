@@ -119,6 +119,8 @@ IKS01A3_ENV_SENSOR_Capabilities_t EnvCapabilities;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
+#define NUM_SENSORS 2 // Sensors Numbers
+
 
 /* USER CODE END PFP */
 
@@ -126,21 +128,52 @@ IKS01A3_ENV_SENSOR_Capabilities_t EnvCapabilities;
 int32_t EnvSensors_Read(sensor_t *sensor_data)
 {
   /* USER CODE BEGIN EnvSensors_Read */
+	GPIO_TypeDef* GPIO_Port[NUM_SENSORS+1] = {0, GPIOB, GPIOB};
+	uint16_t GPIO_Pin[NUM_SENSORS+1] = {0, GPIO_PIN_7, GPIO_PIN_6};
 
-  //ANALOG SENSOR 1 CALIBRATION
-  int dry_value_first = 2720;
-  int wet_value_first = 200;
-
-  //ANALOG SENSOR 2 CALIBRATION
-  int dry_value_second = 2000;
-  int wet_value_second = 200;
+	uint16_t TERRAIN_HUMIDITY_Value[NUM_SENSORS+1];
 
   //Reading procedure has a defined number of steps, each one for a single sensor
   int step = 1;
 
   float c = 0;
-  uint16_t TERRAIN_HUMIDITY_Value1 = TERRAIN_HUMIDITY_DEFAULT_VAL;
-  uint16_t TERRAIN_HUMIDITY_Value2 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+
+  //Assigning the default values
+
+  //teros12 --> Moisture
+  float teros12_vwc_raw_1 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  float teros12_vwc_raw_2 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  float teros12_vwc_raw_3 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  float teros12_vwc_raw_4 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  float teros12_vwc_raw_5 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+
+  //Teros12 --> Temperature
+  float teros12_temp_raw_1 = TEMPERATURE_DEFAULT_VAL;
+  float teros12_temp_raw_2 = TEMPERATURE_DEFAULT_VAL;
+  float teros12_temp_raw_3 = TEMPERATURE_DEFAULT_VAL;
+  float teros12_temp_raw_4 = TEMPERATURE_DEFAULT_VAL;
+  float teros12_temp_raw_5 = TEMPERATURE_DEFAULT_VAL;
+
+  //Teros10
+  uint16_t teros10_raw_vwc_1 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  uint16_t teros10_raw_vwc_2 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  uint16_t teros10_raw_vwc_3 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  uint16_t teros10_raw_vwc_4 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  uint16_t teros10_raw_vwc_5 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+
+  //sen0308
+  uint16_t sen0308_1 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  uint16_t sen0308_2 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  uint16_t sen0308_3 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  uint16_t sen0308_4 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  uint16_t sen0308_5 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+
+  //soilwatch10
+  uint16_t soilwatch10_1 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  uint16_t soilwatch10_2 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  uint16_t soilwatch10_3 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  uint16_t soilwatch10_4 = TERRAIN_HUMIDITY_DEFAULT_VAL;
+  uint16_t soilwatch10_5 = TERRAIN_HUMIDITY_DEFAULT_VAL;
 
 #if defined (SENSOR_ENABLED) && (SENSOR_ENABLED == 1)
 #if (USE_IKS01A2_ENV_SENSOR_HTS221_0 == 1)
@@ -162,27 +195,118 @@ int32_t EnvSensors_Read(sensor_t *sensor_data)
 #else
 
   //1
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
-  HAL_Delay(100);
-  TERRAIN_HUMIDITY_Value1 = drv_terrain_humi_Read(step);  //Reading the first analog sensor (step=1)
-  HAL_Delay(200);
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
-  step++;
+  while (step != 3)
+  {
+	  //1
+	  HAL_GPIO_WritePin(GPIO_Port[step], GPIO_Pin[step], GPIO_PIN_SET);
+	  HAL_Delay(100);
+	  TERRAIN_HUMIDITY_Value[step] = drv_terrain_humi_Read(step);  //Reading the first analog sensor (step=1)
+	  HAL_Delay(100);
+	  HAL_GPIO_WritePin(GPIO_Port[step], GPIO_Pin[step], GPIO_PIN_RESET);
+	  step++;
+  }
+  sen0308_1 = TERRAIN_HUMIDITY_Value[1];
+  soilwatch10_1 = TERRAIN_HUMIDITY_Value[2];
+  step = 1;
 
   //2
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);
-  HAL_Delay(100);
-  TERRAIN_HUMIDITY_Value2 = drv_terrain_humi_Read(step);  //Reading the second analog sensor (step=2)
-  HAL_Delay(200);
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
+  while (step != 3)
+  {
+	  //1
+	  HAL_GPIO_WritePin(GPIO_Port[step], GPIO_Pin[step], GPIO_PIN_SET);
+	  HAL_Delay(100);
+	  TERRAIN_HUMIDITY_Value[step] = drv_terrain_humi_Read(step);  //Reading the first analog sensor (step=1)
+	  HAL_Delay(100);
+	  HAL_GPIO_WritePin(GPIO_Port[step], GPIO_Pin[step], GPIO_PIN_RESET);
+	  step++;
+  }
   step = 1;
+  sen0308_2 = TERRAIN_HUMIDITY_Value[1];
+  soilwatch10_2 = TERRAIN_HUMIDITY_Value[2];
+
+  //3
+  while (step != 3)
+  {
+	  //1
+	  HAL_GPIO_WritePin(GPIO_Port[step], GPIO_Pin[step], GPIO_PIN_SET);
+	  HAL_Delay(100);
+	  TERRAIN_HUMIDITY_Value[step] = drv_terrain_humi_Read(step);  //Reading the first analog sensor (step=1)
+	  HAL_Delay(100);
+	  HAL_GPIO_WritePin(GPIO_Port[step], GPIO_Pin[step], GPIO_PIN_RESET);
+	  step++;
+  }
+  step = 1;
+  sen0308_3 = TERRAIN_HUMIDITY_Value[1];
+  soilwatch10_3 = TERRAIN_HUMIDITY_Value[2];
+
+  //4
+  while (step != 3)
+  {
+	  //1
+	  HAL_GPIO_WritePin(GPIO_Port[step], GPIO_Pin[step], GPIO_PIN_SET);
+	  HAL_Delay(100);
+	  TERRAIN_HUMIDITY_Value[step] = drv_terrain_humi_Read(step);  //Reading the first analog sensor (step=1)
+	  HAL_Delay(100);
+	  HAL_GPIO_WritePin(GPIO_Port[step], GPIO_Pin[step], GPIO_PIN_RESET);
+	  step++;
+  }
+  step = 1;
+  sen0308_4 = TERRAIN_HUMIDITY_Value[1];
+  soilwatch10_4 = TERRAIN_HUMIDITY_Value[2];
+
+  //5
+  while (step != 3)
+  {
+	  //1
+	  HAL_GPIO_WritePin(GPIO_Port[step], GPIO_Pin[step], GPIO_PIN_SET);
+	  HAL_Delay(100);
+	  TERRAIN_HUMIDITY_Value[step] = drv_terrain_humi_Read(step);
+	  HAL_Delay(100);
+	  HAL_GPIO_WritePin(GPIO_Port[step], GPIO_Pin[step], GPIO_PIN_RESET);
+	  step++;
+  }
+  step = 1;
+  sen0308_5 = TERRAIN_HUMIDITY_Value[1];
+  soilwatch10_5 = TERRAIN_HUMIDITY_Value[2];
+
 
 
 #endif  /* SENSOR_ENABLED */
 
-  //Analog Data:
-  sensor_data->terrain_humidity1 = TERRAIN_HUMIDITY_Value1;  //((TERRAIN_HUMIDITY_Value1 - dry_value_first)*100) / (wet_value_first - dry_value_first);
-  sensor_data->terrain_humidity2 = TERRAIN_HUMIDITY_Value2;
+  //Teros12 --> Humidity
+  sensor_data->teros12_vwc_raw_1 = teros12_vwc_raw_1;
+  sensor_data->teros12_vwc_raw_2 = teros12_vwc_raw_2;
+  sensor_data->teros12_vwc_raw_3 = teros12_vwc_raw_3;
+  sensor_data->teros12_vwc_raw_4 = teros12_vwc_raw_4;
+  sensor_data->teros12_vwc_raw_5 = teros12_vwc_raw_5;
+
+  //Teros12 --> Temperature
+  sensor_data->teros12_temp_raw_1 = teros12_temp_raw_1;
+  sensor_data->teros12_temp_raw_2 = teros12_temp_raw_2;
+  sensor_data->teros12_temp_raw_3 = teros12_temp_raw_3;
+  sensor_data->teros12_temp_raw_4 = teros12_temp_raw_4;
+  sensor_data->teros12_temp_raw_5 = teros12_temp_raw_5;
+
+  //Teros10
+  sensor_data->teros10_raw_vwc_1 = teros10_raw_vwc_1;
+  sensor_data->teros10_raw_vwc_2 = teros10_raw_vwc_2;
+  sensor_data->teros10_raw_vwc_3 = teros10_raw_vwc_3;
+  sensor_data->teros10_raw_vwc_4 = teros10_raw_vwc_4;
+  sensor_data->teros10_raw_vwc_5 = teros10_raw_vwc_5;
+
+  //SEN0308
+  sensor_data->sen0308_1 = sen0308_1;
+  sensor_data->sen0308_2 = sen0308_2;
+  sensor_data->sen0308_3 = sen0308_3;
+  sensor_data->sen0308_4 = sen0308_4;
+  sensor_data->sen0308_5 = sen0308_5;
+
+  //soilwatch10
+  sensor_data->soilwatch10_1 = soilwatch10_1;
+  sensor_data->soilwatch10_2 = soilwatch10_2;
+  sensor_data->soilwatch10_3 = soilwatch10_3;
+  sensor_data->soilwatch10_4 = soilwatch10_4;
+  sensor_data->soilwatch10_5 = soilwatch10_5;
 
   sensor_data->latitude  = (int32_t)((STSOP_LATTITUDE  * MAX_GPS_POS) / 90);
   sensor_data->longitude = (int32_t)((STSOP_LONGITUDE  * MAX_GPS_POS) / 180);
