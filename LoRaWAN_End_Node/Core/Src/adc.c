@@ -74,6 +74,9 @@ void MX_ADC_Init(int step)
   if (step == 2){
 	  sConfig.Channel = ADC_CHANNEL_4;  //Reading from the A1 pin
   }
+  if (step == 3){
+	  sConfig.Channel = ADC_CHANNEL_3;  //Reading from the A3 pin
+  }
   //sConfig.Channel = ADC_CHANNEL_5;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SamplingTime = ADC_SAMPLINGTIME_COMMON_1;
@@ -100,10 +103,11 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
 
     __HAL_RCC_GPIOB_CLK_ENABLE();
     /**ADC GPIO Configuration
+    PB4     ------> ADC_IN3
     PB2     ------> ADC_IN4
     PB1     ------> ADC_IN5
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_1;
+    GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_2|GPIO_PIN_1;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -126,10 +130,11 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
     __HAL_RCC_ADC_CLK_DISABLE();
 
     /**ADC GPIO Configuration
+    PB4     ------> ADC_IN3
     PB2     ------> ADC_IN4
     PB1     ------> ADC_IN5
     */
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_2|GPIO_PIN_1);
+    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_4|GPIO_PIN_2|GPIO_PIN_1);
 
   /* USER CODE BEGIN ADC_MspDeInit 1 */
 

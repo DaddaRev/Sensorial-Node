@@ -89,12 +89,12 @@ extern "C" {
  * End-device IEEE EUI (big endian)
  * When set to 00,00,00,00,00,00,00,00 DevEui is automatically set with a value provided by MCU platform
  */
-#define LORAWAN_DEVICE_EUI                                 70,B3,D5,7E,D0,06,34,C0
+#define LORAWAN_DEVICE_EUI                                 00,00,00,00,00,00,00,00
 
 /*!
  * App/Join server IEEE EUI (big endian)
  */
-#define LORAWAN_JOIN_EUI                                   00,A0,B0,11,D0,55,55,55
+#define LORAWAN_JOIN_EUI                                   01,01,01,01,01,01,01,01
 
 /*!
  * Device address on the network (big endian)
@@ -110,7 +110,7 @@ extern "C" {
 /*!
  * Network root key
  */
-#define LORAWAN_NWK_KEY                                    9B,67,63,B3,8A,EA,37,7E,FC,86,6B,21,79,C5,E7,7F
+#define LORAWAN_NWK_KEY                                    2B,7E,15,16,28,AE,D2,A6,AB,F7,15,88,09,CF,4F,3C
 
 /*!
  * Forwarding Network session key

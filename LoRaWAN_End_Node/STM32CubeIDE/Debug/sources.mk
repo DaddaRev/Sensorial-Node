@@ -23,6 +23,7 @@ C_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 Application/User/Core \
+Application/User/Core/lib \
 Application/User/Core/sensors \
 Application/User/LoRaWAN/App \
 Application/User/LoRaWAN/Target \

@@ -562,14 +562,40 @@ static void SendTxData(void)
 #ifdef CAYENNE_LPP
     uint8_t channel = 0;
 #else
-    //uint16_t pressure = 0;
-    uint16_t terrain_humidity1 = 0;
-    uint16_t terrain_humidity2 = 0;
-    /*
-    int16_t temperature = 0;
-    uint16_t humidity = 0;
-    uint32_t light = 0;
-    */
+    //teros12
+    float teros12_vwc_raw_1 = 0;
+    float teros12_vwc_raw_2 = 0;
+    float teros12_vwc_raw_3 = 0;
+    float teros12_vwc_raw_4 = 0;
+    float teros12_vwc_raw_5 = 0;
+
+    float teros12_temp_raw_1 = 0;
+    float teros12_temp_raw_2 = 0;
+    float teros12_temp_raw_3 = 0;
+    float teros12_temp_raw_4 = 0;
+    float teros12_temp_raw_5 = 0;
+
+    //teros10
+    uint16_t teros10_raw_vwc_1 = 0;
+    uint16_t teros10_raw_vwc_2 = 0;
+    uint16_t teros10_raw_vwc_3 = 0;
+    uint16_t teros10_raw_vwc_4 = 0;
+    uint16_t teros10_raw_vwc_5 = 0;
+
+    //sen0308
+    uint16_t sen0308_1 = 0;
+    uint16_t sen0308_2 = 0;
+    uint16_t sen0308_3 = 0;
+    uint16_t sen0308_4 = 0;
+    uint16_t sen0308_5 = 0;
+
+    //soilwatch10
+    uint16_t soilwatch10_1 = 0;
+    uint16_t soilwatch10_2 = 0;
+    uint16_t soilwatch10_3 = 0;
+    uint16_t soilwatch10_4 = 0;
+    uint16_t soilwatch10_5 = 0;
+
     uint32_t i = 0;
     int32_t latitude = 0;
     int32_t longitude = 0;
@@ -582,8 +608,8 @@ static void SendTxData(void)
     //APP_LOG(TS_ON, VLEVEL_M, "temp: %d\r\n", (int16_t)(sensor_data.temperature));
     //APP_LOG(TS_ON, VLEVEL_M, "humi: %d\r\n", (uint16_t)(sensor_data.humidity));
     //APP_LOG(TS_ON, VLEVEL_M, "light: %d\r\n", (uint16_t)(sensor_data.light));
-    APP_LOG(TS_ON, VLEVEL_M, "terr_humi1: %d\r\n", (uint16_t)(sensor_data.terrain_humidity1));
-    APP_LOG(TS_ON, VLEVEL_M, "terr_humi2: %d\r\n", (uint16_t)(sensor_data.terrain_humidity2));
+    //APP_LOG(TS_ON, VLEVEL_M, "terr_humi1: %d\r\n", (uint16_t)(sensor_data.terrain_humidity1));
+    //APP_LOG(TS_ON, VLEVEL_M, "terr_humi2: %d\r\n", (uint16_t)(sensor_data.terrain_humidity2));
 
 
     AppData.Port = LORAWAN_USER_APP_PORT;
@@ -604,24 +630,149 @@ static void SendTxData(void)
     CayenneLppCopy(AppData.Buffer);
     AppData.BufferSize = CayenneLppGetSize();
 #else  /* not CAYENNE_LPP */
-    //humidity    = (uint16_t)(sensor_data.humidity * 10);            /* in %*10     */
-    //temperature = (int16_t)(sensor_data.temperature);
-    terrain_humidity1 = (uint16_t)(sensor_data.terrain_humidity1 * 10); /* in %*10  */
-    terrain_humidity2 = (uint16_t)(sensor_data.terrain_humidity2 * 10); /* in %*10  */
-    //light = (uint16_t)(sensor_data.light);
 
-    AppData.Buffer[i++] = AppLedStateOn;
-    AppData.Buffer[i++] = (uint8_t)((terrain_humidity1 >> 8) & 0xFF);
-    AppData.Buffer[i++] = (uint8_t)(terrain_humidity1 & 0xFF);
-    AppData.Buffer[i++] = (uint8_t)((terrain_humidity2 >> 8) & 0xFF);
-    AppData.Buffer[i++] = (uint8_t)(terrain_humidity2 & 0xFF);
-    /*
-    AppData.Buffer[i++] = (uint8_t)((light >> 8) & 0xFF);
-    AppData.Buffer[i++] = (uint8_t)(light & 0xFF);
-    AppData.Buffer[i++] = (uint8_t)(temperature & 0xFF);
-    AppData.Buffer[i++] = (uint8_t)((humidity >> 8) & 0xFF);
-    AppData.Buffer[i++] = (uint8_t)(humidity & 0xFF);
-    */
+    //teros12 --> Humidity
+      teros12_vwc_raw_1 = (float)(sensor_data.teros12_vwc_raw_1);
+      teros12_vwc_raw_2 = (float)(sensor_data.teros12_vwc_raw_2);
+      teros12_vwc_raw_3 = (float)(sensor_data.teros12_vwc_raw_3);
+      teros12_vwc_raw_4 = (float)(sensor_data.teros12_vwc_raw_4);
+      teros12_vwc_raw_5 = (float)(sensor_data.teros12_vwc_raw_5);
+
+    //Teros12 --> Temperature
+      teros12_temp_raw_1 = (float)(sensor_data.teros12_temp_raw_1);
+      teros12_temp_raw_2 = (float)(sensor_data.teros12_temp_raw_2);
+      teros12_temp_raw_3 = (float)(sensor_data.teros12_temp_raw_3);
+      teros12_temp_raw_4 = (float)(sensor_data.teros12_temp_raw_4);
+      teros12_temp_raw_5 = (float)(sensor_data.teros12_temp_raw_5);
+
+      //Teros10
+      teros10_raw_vwc_1 = (uint16_t)(sensor_data.teros10_raw_vwc_1);
+      teros10_raw_vwc_2 = (uint16_t)(sensor_data.teros10_raw_vwc_2);
+      teros10_raw_vwc_3 = (uint16_t)(sensor_data.teros10_raw_vwc_3);
+      teros10_raw_vwc_4 = (uint16_t)(sensor_data.teros10_raw_vwc_4);
+      teros10_raw_vwc_5 = (uint16_t)(sensor_data.teros10_raw_vwc_5);
+
+      //sen0308
+      sen0308_1 = (uint16_t)(sensor_data.sen0308_1);
+      sen0308_2 = (uint16_t)(sensor_data.sen0308_2);
+      sen0308_3 = (uint16_t)(sensor_data.sen0308_3);
+      sen0308_4 = (uint16_t)(sensor_data.sen0308_4);
+      sen0308_5 = (uint16_t)(sensor_data.sen0308_5);
+
+      //soilwatch10
+      soilwatch10_1 = (uint16_t)(sensor_data.soilwatch10_1);
+      soilwatch10_2 = (uint16_t)(sensor_data.soilwatch10_1);
+      soilwatch10_3 = (uint16_t)(sensor_data.soilwatch10_1);
+      soilwatch10_4 = (uint16_t)(sensor_data.soilwatch10_1);
+      soilwatch10_5 = (uint16_t)(sensor_data.soilwatch10_1);
+
+
+      //Pointer Casting method to insert a float in the buffer
+      uint8_t* float_bytes_vwc_1 = (uint8_t*)&teros12_vwc_raw_1;
+      uint8_t* float_bytes_vwc_2 = (uint8_t*)&teros12_vwc_raw_2;
+      uint8_t* float_bytes_vwc_3 = (uint8_t*)&teros12_vwc_raw_3;
+      uint8_t* float_bytes_vwc_4 = (uint8_t*)&teros12_vwc_raw_4;
+      uint8_t* float_bytes_vwc_5 = (uint8_t*)&teros12_vwc_raw_5;
+
+      uint8_t* float_bytes_temp_1 = (uint8_t*)&teros12_temp_raw_1;
+      uint8_t* float_bytes_temp_2 = (uint8_t*)&teros12_temp_raw_2;
+      uint8_t* float_bytes_temp_3 = (uint8_t*)&teros12_temp_raw_3;
+      uint8_t* float_bytes_temp_4 = (uint8_t*)&teros12_temp_raw_4;
+      uint8_t* float_bytes_temp_5 = (uint8_t*)&teros12_temp_raw_5;
+
+      //1
+      AppData.Buffer[i++] = float_bytes_vwc_1[0];
+      AppData.Buffer[i++] = float_bytes_vwc_1[1];
+      AppData.Buffer[i++] = float_bytes_vwc_1[2];
+      AppData.Buffer[i++] = float_bytes_vwc_1[3];
+
+      AppData.Buffer[i++] = float_bytes_temp_1[0];
+      AppData.Buffer[i++] = float_bytes_temp_1[1];
+      AppData.Buffer[i++] = float_bytes_temp_1[2];
+      AppData.Buffer[i++] = float_bytes_temp_1[3];
+
+      AppData.Buffer[i++] = (uint8_t)((teros10_raw_vwc_1 >> 8) & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)(teros10_raw_vwc_1 & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)((sen0308_1 >> 8) & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)(sen0308_1 & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)((soilwatch10_1 >> 8) & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)(soilwatch10_1 & 0xFF);
+
+      //2
+      AppData.Buffer[i++] = float_bytes_vwc_2[0];
+      AppData.Buffer[i++] = float_bytes_vwc_2[1];
+      AppData.Buffer[i++] = float_bytes_vwc_2[2];
+      AppData.Buffer[i++] = float_bytes_vwc_2[3];
+
+      AppData.Buffer[i++] = float_bytes_temp_2[0];
+      AppData.Buffer[i++] = float_bytes_temp_2[1];
+      AppData.Buffer[i++] = float_bytes_temp_2[2];
+      AppData.Buffer[i++] = float_bytes_temp_2[3];
+
+      AppData.Buffer[i++] = (uint8_t)((teros10_raw_vwc_2 >> 8) & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)(teros10_raw_vwc_2 & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)((sen0308_2 >> 8) & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)(sen0308_2 & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)((soilwatch10_2 >> 8) & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)(soilwatch10_2 & 0xFF);
+
+      //3
+      AppData.Buffer[i++] = float_bytes_vwc_3[0];
+      AppData.Buffer[i++] = float_bytes_vwc_3[1];
+      AppData.Buffer[i++] = float_bytes_vwc_3[2];
+      AppData.Buffer[i++] = float_bytes_vwc_3[3];
+
+      AppData.Buffer[i++] = float_bytes_temp_3[0];
+      AppData.Buffer[i++] = float_bytes_temp_3[1];
+      AppData.Buffer[i++] = float_bytes_temp_3[2];
+      AppData.Buffer[i++] = float_bytes_temp_3[3];
+
+      AppData.Buffer[i++] = (uint8_t)((teros10_raw_vwc_3 >> 8) & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)(teros10_raw_vwc_3 & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)((sen0308_3 >> 8) & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)(sen0308_3 & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)((soilwatch10_3 >> 8) & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)(soilwatch10_3 & 0xFF);
+
+      //4
+      AppData.Buffer[i++] = float_bytes_vwc_4[0];
+      AppData.Buffer[i++] = float_bytes_vwc_4[1];
+      AppData.Buffer[i++] = float_bytes_vwc_4[2];
+      AppData.Buffer[i++] = float_bytes_vwc_4[3];
+
+      AppData.Buffer[i++] = float_bytes_temp_4[0];
+      AppData.Buffer[i++] = float_bytes_temp_4[1];
+      AppData.Buffer[i++] = float_bytes_temp_4[2];
+      AppData.Buffer[i++] = float_bytes_temp_4[3];
+
+      AppData.Buffer[i++] = (uint8_t)((teros10_raw_vwc_4 >> 8) & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)(teros10_raw_vwc_4 & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)((sen0308_4 >> 8) & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)(sen0308_4 & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)((soilwatch10_4 >> 8) & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)(soilwatch10_4 & 0xFF);
+
+      //5
+      AppData.Buffer[i++] = float_bytes_vwc_5[0];
+      AppData.Buffer[i++] = float_bytes_vwc_5[1];
+      AppData.Buffer[i++] = float_bytes_vwc_5[2];
+      AppData.Buffer[i++] = float_bytes_vwc_5[3];
+
+      AppData.Buffer[i++] = float_bytes_temp_5[0];
+      AppData.Buffer[i++] = float_bytes_temp_5[1];
+      AppData.Buffer[i++] = float_bytes_temp_5[2];
+      AppData.Buffer[i++] = float_bytes_temp_5[3];
+
+      AppData.Buffer[i++] = (uint8_t)((teros10_raw_vwc_5 >> 8) & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)(teros10_raw_vwc_5 & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)((sen0308_5 >> 8) & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)(sen0308_5 & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)((soilwatch10_5 >> 8) & 0xFF);
+      AppData.Buffer[i++] = (uint8_t)(soilwatch10_5 & 0xFF);
+
+
+    //AppData.Buffer[i++] = AppLedStateOn;
+
 
     if ((LmHandlerParams.ActiveRegion == LORAMAC_REGION_US915) || (LmHandlerParams.ActiveRegion == LORAMAC_REGION_AU915)
         || (LmHandlerParams.ActiveRegion == LORAMAC_REGION_AS923))
@@ -636,7 +787,8 @@ static void SendTxData(void)
       latitude = sensor_data.latitude;
       longitude = sensor_data.longitude;
 
-      AppData.Buffer[i++] = GetBatteryLevel();        /* 1 (very low) to 254 (fully charged) */
+      /*
+      AppData.Buffer[i++] = GetBatteryLevel();        //1 (very low) to 254 (fully charged)
       AppData.Buffer[i++] = (uint8_t)((latitude >> 16) & 0xFF);
       AppData.Buffer[i++] = (uint8_t)((latitude >> 8) & 0xFF);
       AppData.Buffer[i++] = (uint8_t)(latitude & 0xFF);
@@ -645,6 +797,7 @@ static void SendTxData(void)
       AppData.Buffer[i++] = (uint8_t)(longitude & 0xFF);
       AppData.Buffer[i++] = (uint8_t)((altitudeGps >> 8) & 0xFF);
       AppData.Buffer[i++] = (uint8_t)(altitudeGps & 0xFF);
+      */
     }
 
     AppData.BufferSize = i;

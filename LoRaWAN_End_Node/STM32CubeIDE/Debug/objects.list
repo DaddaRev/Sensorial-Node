@@ -18,6 +18,7 @@
 "./Application/User/Core/timer_if.o"
 "./Application/User/Core/usart.o"
 "./Application/User/Core/usart_if.o"
+"./Application/User/Core/lib/reconfigFun.o"
 "./Application/User/Core/sensors/drv_hts221.o"
 "./Application/User/Core/sensors/drv_light.o"
 "./Application/User/Core/sensors/drv_terrain_umi.o"

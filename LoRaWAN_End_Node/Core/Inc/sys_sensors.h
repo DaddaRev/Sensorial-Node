@@ -46,8 +46,42 @@ typedef struct
   int16_t altitudeBar;    /*!< in m * 10 */
   /**more may be added*/
   /* USER CODE BEGIN sensor_t */
-  int terrain_humidity1;   //First analog sensor
-  int terrain_humidity2;   //Second analog sensor
+
+  //teros12
+  float teros12_vwc_raw_1;
+  float teros12_vwc_raw_2;
+  float teros12_vwc_raw_3;
+  float teros12_vwc_raw_4;
+  float teros12_vwc_raw_5;
+
+  float teros12_temp_raw_1;
+  float teros12_temp_raw_2;
+  float teros12_temp_raw_3;
+  float teros12_temp_raw_4;
+  float teros12_temp_raw_5;
+
+  //teros10
+  uint16_t teros10_raw_vwc_1;
+  uint16_t teros10_raw_vwc_2;
+  uint16_t teros10_raw_vwc_3;
+  uint16_t teros10_raw_vwc_4;
+  uint16_t teros10_raw_vwc_5;
+
+  //sen0308
+  uint16_t sen0308_1;
+  uint16_t sen0308_2;
+  uint16_t sen0308_3;
+  uint16_t sen0308_4;
+  uint16_t sen0308_5;
+
+  //soilwatch10
+  uint16_t soilwatch10_1;
+  uint16_t soilwatch10_2;
+  uint16_t soilwatch10_3;
+  uint16_t soilwatch10_4;
+  uint16_t soilwatch10_5;
+
+
   /* USER CODE END sensor_t */
 } sensor_t;
 
