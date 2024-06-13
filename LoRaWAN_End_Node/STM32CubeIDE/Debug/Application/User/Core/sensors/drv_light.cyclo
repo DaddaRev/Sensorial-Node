@@ -1,2 +1,0 @@
-../Application/User/Core/sensors/drv_light.c:23:9:drv_Light_Enable	1
-../Application/User/Core/sensors/drv_light.c:40:7:drv_Light_Read	3

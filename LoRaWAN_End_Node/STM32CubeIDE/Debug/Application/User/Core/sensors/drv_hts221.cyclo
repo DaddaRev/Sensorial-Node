@@ -1,3 +1,0 @@
-../Application/User/Core/sensors/drv_hts221.c:12:6:HTS221_USER_Init	1
-../Application/User/Core/sensors/drv_hts221.c:26:7:HTS221_Read_Temperature	1
-../Application/User/Core/sensors/drv_hts221.c:32:7:HTS221_Read_Humidity	1

@@ -1,3 +1,0 @@
-C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/Core/Src/adc.c:30:6:MX_ADC_Init	24	static
-C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/Core/Src/adc.c:92:6:HAL_ADC_MspInit	40	static
-C:/Users/Utente/Downloads/VASOINTELLIGENTE-main/VASOINTELLIGENTE-main/LoRaWAN_End_Node/Core/Src/adc.c:121:6:HAL_ADC_MspDeInit	8	static
