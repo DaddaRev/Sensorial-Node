@@ -38,8 +38,6 @@ extern ADC_HandleTypeDef hadc;
 
 /* USER CODE END Private defines */
 
-//void MX_ADC_Init(void);
-
 /* USER CODE BEGIN Prototypes */
 void MX_ADC_Init(int step);
 

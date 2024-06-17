@@ -68,16 +68,7 @@ void MX_ADC_Init(int step)
 
   /** Configure Regular Channel
   */
-  if (step == 1){
-	  sConfig.Channel = ADC_CHANNEL_5;  //Reading from the A0 pin
-  }
-  if (step == 2){
-	  sConfig.Channel = ADC_CHANNEL_4;  //Reading from the A1 pin
-  }
-  if (step == 3){
-	  sConfig.Channel = ADC_CHANNEL_3;  //Reading from the A3 pin
-  }
-  //sConfig.Channel = ADC_CHANNEL_5;
+  sConfig.Channel = ADC_CHANNEL_5;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SamplingTime = ADC_SAMPLINGTIME_COMMON_1;
   if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)

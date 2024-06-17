@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "app_lorawan.h"
+#include "lptim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -86,8 +87,18 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_LoRaWAN_Init();
+  MX_LPTIM2_Init();
   /* USER CODE BEGIN 2 */
 
+  /* Imposta il valore di autoreload per ottenere 1200 Hz */
+  uint32_t autoreload_value = 40000 - 1; // ARR = 40000 - 1 (ARR zero-based)
+
+  /* Avvia il timer con il valore di autoreload */
+  //if (HAL_LPTIM_(&hlptim2, 0, autoreload_value) != HAL_OK)
+  //{
+    /* Avvio non riuscito, gestisci l'errore */
+    //Error_Handler();
+  //}
   /* USER CODE END 2 */
 
   /* Infinite loop */
