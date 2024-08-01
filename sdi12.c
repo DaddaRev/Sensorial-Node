@@ -130,18 +130,18 @@ HAL_StatusTypeDef write_char(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, uint8_t cha
 }
 
 // Function to read response
-uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms, ReadError* error) {
+uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms, ReadError* error, GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin) {
     uint8_t byte = 0;
     uint8_t char_value;
     size_t char_idx = 0;
     bool pin_low;
 
+    uint32_t start_tick = HAL_GetTick(); // Getting the initial tick for the timeout
+
     while (1) {
-	// Wait for the start bit.
 	
-		// ******DA FARE*****
-        /*  DA FARE L'ATTESA PER LA LETTURA DELLO STATO DEL PIN
-		//EX:
+		// ******VEDI IMPLEMENTAZIONE SOTTO*****
+        /* ATTESA PER LA LETTURA DELLO STATO DEL PIN
         while (pin_is_low()) {
             if (timeout_condition_met()) {
                 *error = ReadError_Timeout;
@@ -149,6 +149,14 @@ uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms,
             }
         }
         */
+
+        // Wait for the start bit.
+        while (HAL_GPIO_ReadPin(GPIOx, GPIO_Pin) == GPIO_PIN_RESET) {
+            if ((HAL_GetTick() - start_tick) > timeout_ms) {
+                *error = ReadError_Timeout; 
+                return NULL; 
+            }
+        }
 
 		// ******DA FARE*****
         // Offset the sampling of half the bit period. --> Lo sfasamento riduce la probabilità di errore a causa di interferenze
@@ -158,14 +166,11 @@ uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms,
 		
         // Sample 7 data bits + parity bit.
         for (int i = 0; i < 8; i++) {
-            // Left shift the byte by one bit.
-            byte >>= 1;
-			
-			// ******DA FARE*****
-			//DA FARE L'ATTESA PER LA LETTURA DELLO STATO DEL PIN
+
+            byte >>= 1;  // Left shift the byte by one bit.
+
             // Read the bit value using negative logic (example logic, replace with actual pin read logic)
-            /*
-            pin_low = pin_is_low();
+            pin_low = HAL_GPIO_ReadPin(GPIOx, GPIO_Pin) == GPIO_PIN_RESET;
             if (pin_low) {
                 byte |= 0b10000000; // Set the MSB
             } else {
@@ -177,15 +182,11 @@ uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms,
             //ticker_next();
         }
 
-		// ******DA FARE*****
-		//DA FARE L'ATTESA PER LA LETTURA DELLO STATO DEL PIN
         // Check the stop bit (replace with actual pin read logic)
-        /*
-        if (pin_is_high()) {
+        if (HAL_GPIO_ReadPin(GPIOx, GPIO_Pin) == GPIO_PIN_SET) {
             *error = ReadError_WrongStopBit;
             return NULL;
         }
-        */
 
         // Check the validity of the even parity bit.
         char_value = byte & 0b01111111;
