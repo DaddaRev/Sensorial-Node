@@ -1,28 +1,46 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "stm32wlxx_hal.h"
+#include "stm32wlxx_hal_lptim.h"
+#include "sdi12.h"
 
-/*
-	// ******DA FARE*****
-	DA FARE IL TIMER (ticker) CON FUNZIONI:
-	ticker_reset() --> Per resettare il timer
-	ticker_next()  --> Per attendere che finisca il ciclo del timer (?)
-	
-*/
+#include <stdbool.h>
+#include "lptim.h"
 
 // Define constants for buffer size and timeout
 #define BUFFER_SIZE 64
 #define TIMEOUT_MS 1000
 
-// Enum to define read errors
-typedef enum {
-    ReadError_None,
-    ReadError_Timeout,
-    ReadError_Pin,
-    ReadError_WrongStopBit,
-    ReadError_ParityBitMismatch,
-    ReadError_BufferOverflow
-} ReadError;
+// Function prototypes to manage timer
+void StartTimer(void);
+void NextTimer(void);
+void ResetTimer(void);
+
+void startTimer(){
+    HAL_LPTIM_Counter_Start(&hlptim2, __HAL_LPTIM_AUTORELOAD_GET(&hlptim2));
+}
+
+void NextTimer(){
+    while (__HAL_LPTIM_GET_FLAG(&hlptim2, LPTIM_FLAG_ARRM) == RESET)
+    {
+    	//Wait till the timer reset flag is changed (timer finished)
+    }
+
+    //Timer period is terminated
+    __HAL_LPTIM_CLEAR_FLAG(&hlptim2, LPTIM_FLAG_ARRM);
+}
+
+void ResetTimer(void)
+{
+    // Stop the timer
+    HAL_LPTIM_Counter_Stop(&hlptim2);
+
+    // Clear the ARRM flag
+    __HAL_LPTIM_CLEAR_FLAG(&hlptim2, LPTIM_FLAG_ARRM);  //Flag
+
+    // Restart the timer with the same autoreload value
+    HAL_LPTIM_Counter_Start(&hlptim2, __HAL_LPTIM_AUTORELOAD_GET(&hlptim2));
+}
 
 /// Wake the sensor on the bus with break and marking signals.
 ///
@@ -106,7 +124,7 @@ HAL_StatusTypeDef write_char(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, uint8_t cha
     //  Hold the line for the rest of the start bit duration.
     //ticker_next();
 
-	// Trasmit each of the 7 bit using negative logic
+	// Transmit each of the 7 bit using negative logic
 	// starting from the least significant bit
     for (int i = 0; i < 8; i++) {
         if (character & 1) {
@@ -176,7 +194,6 @@ uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms,
             } else {
                 byte &= 0b01111111; // Reset the MSB
             }
-            */
 
 			//  Hold the line for the rest of the bit
             //ticker_next();
