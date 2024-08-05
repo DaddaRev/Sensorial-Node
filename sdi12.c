@@ -10,16 +10,20 @@
 // Define constants for buffer size and timeout
 #define BUFFER_SIZE 64
 #define TIMEOUT_MS 1000
+uint32_t autoreload_value = 39999;  //40000 -1 + div1 prescaler = 1200Hz
+
 
 // Function prototypes to manage timer
 void StartTimer(void);
 void NextTimer(void);
 void ResetTimer(void);
 
+//Function to start the Timer
 void startTimer(){
-    HAL_LPTIM_Counter_Start(&hlptim2, __HAL_LPTIM_AUTORELOAD_GET(&hlptim2));
+    HAL_LPTIM_Counter_Start(&hlptim2, autoreload_value);
 }
 
+//Function to wait till the end of the execution of the timer
 void NextTimer(){
     while (__HAL_LPTIM_GET_FLAG(&hlptim2, LPTIM_FLAG_ARRM) == RESET)
     {
@@ -30,16 +34,17 @@ void NextTimer(){
     __HAL_LPTIM_CLEAR_FLAG(&hlptim2, LPTIM_FLAG_ARRM);
 }
 
+//Function to reset the timer
 void ResetTimer(void)
 {
     // Stop the timer
     HAL_LPTIM_Counter_Stop(&hlptim2);
 
     // Clear the ARRM flag
-    __HAL_LPTIM_CLEAR_FLAG(&hlptim2, LPTIM_FLAG_ARRM);  //Flag
+    __HAL_LPTIM_CLEAR_FLAG(&hlptim2, LPTIM_FLAG_ARRM);
 
     // Restart the timer with the same autoreload value
-    HAL_LPTIM_Counter_Start(&hlptim2, __HAL_LPTIM_AUTORELOAD_GET(&hlptim2));
+    HAL_LPTIM_Counter_Start(&hlptim2, autoreload_value);
 }
 
 /// Wake the sensor on the bus with break and marking signals.

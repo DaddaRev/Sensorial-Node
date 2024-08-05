@@ -26,3 +26,5 @@ uint8_t even_parity_bit(uint8_t word);
 
 #endif // COMMUNICATION_H
 
+
+
