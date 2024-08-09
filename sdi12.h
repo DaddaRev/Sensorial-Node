@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include "stm32wlxx_hal.h"
 
+extern LPTIM_HandleTypeDef hlptim2;  //Include "lptim.h" to in LoRaWAN_End_Node project
+
 // Enum to define read errors
 typedef enum {
     ReadError_None,
