@@ -1,12 +1,11 @@
 #include <stdint.h>
 #include <stdio.h>
-#include <stdbool.h>
 
 #include "stm32wlxx_hal.h"
 #include "stm32wlxx_hal_lptim.h"
 #include "sdi12.h"
 
-//#include "lptim.h"
+#include <stdbool.h>
 
 // Define constants for buffer size and timeout
 #define BUFFER_SIZE 64
@@ -162,6 +161,7 @@ uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms,
     bool pin_low;
 
     uint32_t start_tick = HAL_GetTick(); // Getting the initial tick for the timeout
+    //ResetTimer();
 
     while (1) {
 
@@ -172,7 +172,6 @@ uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms,
                 return NULL; 
             }
         }
-
 		// ******VEDI IMPLEMENTAZIONE SOTTO*****
         // Offset the sampling of half the bit period. --> Lo sfasamento riduce la probabilità di errore a causa di interferenze
 		//Sfasamento del bit --> Si può fare con una sleep di 0.5*bit_period
@@ -184,8 +183,9 @@ uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms,
         uint32_t half_bit_period_ms = (uint32_t)((bit_period / 2) * 1000.0);  // Convert to milliseconds
         HAL_Delay(half_bit_period_ms);  // Delay for the calculated time
 		
-        StartTimer();
-        // Sample 7 data bits + parity bit.
+        ResetTimer();
+        NextTimer();
+        //Sample 7 data bits + parity bit.
         for (int i = 0; i < 8; i++) {
 
             byte >>= 1;  // Left shift the byte by one bit.
@@ -204,13 +204,14 @@ uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms,
         }
 
         // Check the stop bit (replace with actual pin read logic)
-        if (HAL_GPIO_ReadPin(GPIOx, GPIO_Pin) == GPIO_PIN_SET) {
+        if (HAL_GPIO_ReadPin(GPIOx, GPIO_Pin) == GPIO_PIN_SET) {   //Stop bit must be LOW
             *error = ReadError_WrongStopBit;
             return NULL;
         }
 
         // Check the validity of the even parity bit.
         char_value = byte & 0b01111111;
+        //printf("%x\n", char_value);
         if (even_parity_bit(char_value) != (byte & 0b10000000)) {
             *error = ReadError_ParityBitMismatch;
             return NULL;
@@ -223,7 +224,7 @@ uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms,
         }
 
         // Break the loop if a new line is detected.
-        if (char_value == '\n') {
+        if (char_value == '\r') {
             break;
         }
 

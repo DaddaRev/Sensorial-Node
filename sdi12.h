@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "stm32wlxx_hal.h"
 
-extern LPTIM_HandleTypeDef hlptim2;  //Include "lptim.h" to in LoRaWAN_End_Node project
+extern LPTIM_HandleTypeDef hlptim2;
 
 // Enum to define read errors
 typedef enum {
@@ -27,6 +27,4 @@ uint8_t count_ones(uint8_t word);
 uint8_t even_parity_bit(uint8_t word);
 
 #endif // COMMUNICATION_H
-
-
 
