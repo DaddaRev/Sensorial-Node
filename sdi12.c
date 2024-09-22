@@ -1,3 +1,18 @@
+/* SDI-12 Protocol Integration in C
+ * by Davide Reverberi
+ *
+ *
+ * Required already configured:
+ * -1 GPIO
+ * -1 Low Power Timer (LPTIMER2)
+ *
+ * Notes:
+ * The code is hard coded for using the LPTIMER2.
+ * Read the doc in GitHub repository for a better understanding.
+ *
+ * Last Update: 22/09/2024
+ */
+
 #include <stdint.h>
 #include <stdio.h>
 
@@ -10,7 +25,7 @@
 // Define constants for buffer size and timeout
 #define BUFFER_SIZE 64
 #define TIMEOUT_MS 1000
-uint32_t autoreload_value = 39999;  //40000 -1 + div1 prescaler = 1200Hz
+uint32_t autoreload_value = 19999;  //20000 -1 + div1 prescaler = 1200Hz
 
 // Function prototypes to manage timer
 void StartTimer(void);
@@ -48,8 +63,8 @@ void ResetTimer(void)
 
 /// Wake the sensor on the bus with break and marking signals.
 ///
-/// The break signal is at least 12 milliseconds (12,000 Âµs) long.
-/// The marking signal is at least 8.333 milliseconds (8,333 Âµs) long.
+/// The break signal is at least 12 milliseconds (12,000 µs) long.
+/// The marking signal is at least 8.333 milliseconds (8,333 µs) long.
 ///
 /// # Arguments
 ///
@@ -65,11 +80,11 @@ void ResetTimer(void)
 /// * `uint16_t` - The type of the pin used for the communication.
 HAL_StatusTypeDef wake_up_sensors(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin) {
 
-    // Break of at least 12 milliseconds (12,000 Âµs).
+    // Break of at least 12 milliseconds (12,000 µs).
     HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_SET);
     HAL_Delay(13);
 
-    // Marking of at least 8.33 milliseconds (8,333 Âµs).
+    // Marking of at least 8.33 milliseconds (8,333 µs).
     HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_RESET);
     HAL_Delay(9);
 
@@ -91,7 +106,6 @@ HAL_StatusTypeDef wake_up_sensors(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin) {
 HAL_StatusTypeDef write_command(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, const uint8_t* command, size_t length) {
     HAL_StatusTypeDef status;
 
-    // Timer reset
     ResetTimer();
 
     // Send each character of the command.
@@ -110,7 +124,7 @@ HAL_StatusTypeDef write_command(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, const ui
 ///
 /// * `GPIO_Pin` - The output pin used for the communication.
 /// * 'GPIOx'  - Register port pointer that identifies the GPIO_Pin.
-/// * `char` - The character to send.
+/// * `character` - The character to send.
 ///
 /// # Returns
 ///
@@ -120,11 +134,15 @@ HAL_StatusTypeDef write_char(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, uint8_t cha
     // Start bit
     HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_SET);
     ResetTimer();
+    StartTimer();
+    ResetTimer();
 
     // Calculate the parity bit and add it as MSB
     character |= (even_parity_bit(character) << 7);
 
     //  Hold the line for the rest of the start bit duration.
+    NextTimer();
+    StartTimer();
     NextTimer();
     StartTimer();
 
@@ -141,6 +159,8 @@ HAL_StatusTypeDef write_char(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, uint8_t cha
 		// Hold the line for this bit duration
         NextTimer();
         StartTimer();
+        NextTimer();
+        StartTimer();
     }
 
     // Stop Bit
@@ -149,11 +169,27 @@ HAL_StatusTypeDef write_char(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, uint8_t cha
     //  Hold the line low for the rest of the stop bit
     NextTimer();
     StartTimer();
+    NextTimer();
+    StartTimer();
 
     return HAL_OK;
 }
 
-// Function to read response
+/// Function to read response form the SDI-12 bus.
+///
+/// # Arguments
+///
+/// * `GPIO_Pin` - The output pin used for the communication.
+/// * 'GPIOx'  - Register port pointer that identifies the GPIO_Pin.
+/// * `character` - The character to send.
+/// *  buffer   - Pointer to the buffer for storing the read characters.
+/// *  buffer_size - Size of the buffer.
+/// *  timeout_ms  - Timeout in milliseconds.
+/// *  error  -  Pointer to store the error status.
+///
+/// # Returns
+///
+/// * uint8_t*   Pointer to the buffer with the response or NULL on error.
 uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms, ReadError* error, GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin) {
     uint8_t byte = 0;
     uint8_t char_value;
@@ -161,7 +197,7 @@ uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms,
     bool pin_low;
 
     uint32_t start_tick = HAL_GetTick(); // Getting the initial tick for the timeout
-    //ResetTimer();
+    ResetTimer();
 
     while (1) {
 
@@ -172,19 +208,15 @@ uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms,
                 return NULL; 
             }
         }
-		// ******VEDI IMPLEMENTAZIONE SOTTO*****
-        // Offset the sampling of half the bit period. --> Lo sfasamento riduce la probabilitÃ  di errore a causa di interferenze
-		//Sfasamento del bit --> Si puÃ² fare con una sleep di 0.5*bit_period
-		//In Rust:
-		//self.ticker.reset_after(Duration::from_hz(2_400));
+        HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_6);
 
         // Offset the sampling by half the bit period:
-        float bit_period = 1.0 / 1200.0;  // Bit period in seconds
-        uint32_t half_bit_period_ms = (uint32_t)((bit_period / 2) * 1000.0);  // Convert to milliseconds
-        HAL_Delay(half_bit_period_ms);  // Delay for the calculated time
-		
         ResetTimer();
-        NextTimer();
+        for (int i = 0; i < 3; i++) {
+        	NextTimer();
+        	StartTimer();
+        }
+
         //Sample 7 data bits + parity bit.
         for (int i = 0; i < 8; i++) {
 
@@ -192,6 +224,8 @@ uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms,
 
             // Read the bit value using negative logic (example logic, replace with actual pin read logic)
             pin_low = HAL_GPIO_ReadPin(GPIOx, GPIO_Pin) == GPIO_PIN_RESET;
+            HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_6);
+
             if (pin_low) {
                 byte |= 0b10000000; // Set the MSB
             } else {
@@ -199,6 +233,8 @@ uint8_t* read_response(uint8_t* buffer, size_t buffer_size, uint32_t timeout_ms,
             }
 
 			//  Hold the line for the rest of the bit
+            NextTimer();
+            StartTimer();
             NextTimer();
             StartTimer();
         }
@@ -256,6 +292,7 @@ uint8_t even_parity_bit(uint8_t word) {
     uint8_t parity = (count_ones(word) % 2) << 7; // Shift the parity bit to the MSB position
     return parity;
 }
+
 
 
 

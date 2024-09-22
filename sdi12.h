@@ -1,3 +1,18 @@
+/* SDI-12 Protocol Integration in C
+ * by Davide Reverberi
+ *
+ *
+ * Required already configured:
+ * -1 GPIO
+ * -1 Low Power Timer (LPTIMER2)
+ *
+ * Notes:
+ * The code is hard coded for using the LPTIMER2.
+ * Read the doc in GitHub repository for a better understanding.
+ *
+ * Last Update: 22/09/2024
+ */
+
 #ifndef COMMUNICATION_H
 #define COMMUNICATION_H
 
@@ -27,4 +42,5 @@ uint8_t count_ones(uint8_t word);
 uint8_t even_parity_bit(uint8_t word);
 
 #endif // COMMUNICATION_H
+
 
