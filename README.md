@@ -28,6 +28,7 @@ Data acquisition is handled in the **`EnvSensors_Read()`** function in **`sys_se
 
 🔔 **Note:** This repository has undergone various modifications and sensor experiments. The latest commits focus on integrating the **[SDI-12 library](https://github.com/DaddaRev/SDI-12)**. Check the commit history to find the most suitable version for your needs.
 
+<br><br>
 ---
 ## 👨‍💻 Author
 📌 [Davide Reverberi](https://github.com/DaddaRev)
