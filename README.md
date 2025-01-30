@@ -5,9 +5,9 @@
 The node is responsible for acquiring data relating to **soil humidity**, detected by:
 - **Three analog sensors**: [SEN0308](https://wiki.dfrobot.com/Waterproof_Capacitive_Soil_Moisture_Sensor_SKU_SEN0308), [SOILWATCH](https://pino-tech.eu/wp-content/uploads/2017/08/SoilWatch10.pdf), [Teros10](https://metergroup.com/it/products/teros-10/)
 - **One digital sensor**: [Teros12](https://metergroup.com/it/products/teros-12/)
-
+<br><br>
 ## 📡 LoRaWAN Communication
-This project is based on the **LoRaWAN End Node template** to communicate with a LoRaWAN gateway. After configuring the communication parameters, the node periodically sends the acquired sensor data.<br>
+This project is based on the **LoRaWAN End Node template** to communicate with a LoRaWAN gateway. After configuring the communication parameters, the node periodically sends the acquired sensor data.<br><br>
 👉 *See the configuration variables inside the project for detailed settings.*
 <br><br>
 ## 📊 Sensory Data Acquisition Methods
@@ -16,9 +16,9 @@ Data acquisition is handled in the **`EnvSensors_Read()`** function in **`sys_se
 - The **step** variable regulates the acquisition cycle.
 - Each LoRaWAN sampling period includes **5 consecutive acquisitions per sensor**.
 - At each new **step** value, the ADC is initialized via **`MX_ADC_Init()`** (found in **`adc.c`** file), which reads data from the respective sensor’s port.
-- The sampled data is stored in the corresponding **`sensor_data`** structure and later used to construct the payload sent to the cloud.<br>
+- The sampled data is stored in the corresponding **`sensor_data`** structure and later used to construct the payload sent to the cloud.<br><br>
 👉 *It is possible to consult the pins that were used to connect the analog sensors in the sys_sensor.c file*
-
+<br><br>
 ## ⚙️ How to Properly Run the Project
 
 1. **Download** the project and **import it into your IDE**.
