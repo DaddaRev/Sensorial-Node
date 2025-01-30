@@ -17,7 +17,7 @@ Data acquisition is handled in the **`EnvSensors_Read()`** function in **`sys_se
 - Each LoRaWAN sampling period includes **5 consecutive acquisitions per sensor**.
 - At each new **step** value, the ADC is initialized via **`MX_ADC_Init()`** (found in **`adc.c`** file), which reads data from the respective sensor’s port.
 - The sampled data is stored in the corresponding **`sensor_data`** structure and later used to construct the payload sent to the cloud.<br><br>
-👉 *It is possible to consult the pins that were used to connect the analog sensors in the sys_sensor.c file*
+👉 *It is possible to consult the pins that were used to connect the analog sensors in the sys_sensor.c file.*
 <br><br>
 ## ⚙️ How to Properly Run the Project
 
@@ -28,9 +28,9 @@ Data acquisition is handled in the **`EnvSensors_Read()`** function in **`sys_se
 
 🔔 **Note:** This repository has undergone various modifications and sensor experiments. The latest commits focus on integrating the **[SDI-12 library](https://github.com/DaddaRev/SDI-12)**. Check the commit history to find the most suitable version for your needs.
 
-<br><br>
+<br><
 ---
-## 👨‍💻 Author
+## Author
 📌 [Davide Reverberi](https://github.com/DaddaRev)
 
 📝 **Repository:** [SDI-12 Library](https://github.com/DaddaRev/SDI-12) *(for Teros12 integration)*
